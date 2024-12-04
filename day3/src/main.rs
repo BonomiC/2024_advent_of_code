@@ -1,4 +1,4 @@
-extern crate file_utils;
+use file_utils;
 use regex::Regex;
 
 fn main() {
@@ -13,6 +13,8 @@ fn main() {
     // mul\(\d+,\d+(?=\))
     // mul\(([0-9]|[1-9][0-9]|[1-9][0-9][0-9]),([0-9]|[1-9][0-9]|[1-9][0-9][0-9])\)
     // mul\((?<first>[0-9]|[1-9][0-9]|[1-9][0-9][0-9]),(?<second>[0-9]|[1-9][0-9]|[1-9][0-9][0-9])\)
+
+    // mul\\((?<first>\d+),(?<second>\d+)\\) - also valid
     let re = Regex::new("mul\\((?<first>[0-9]|[1-9][0-9]|[1-9][0-9][0-9]),(?<second>[0-9]|[1-9][0-9]|[1-9][0-9][0-9])\\)").unwrap();
 
     let caps: Vec<regex::Captures> = re.captures_iter(&contents).collect();
