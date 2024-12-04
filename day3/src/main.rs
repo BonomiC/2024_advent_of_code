@@ -1,5 +1,4 @@
-mod file_utils;
-
+extern crate file_utils;
 use regex::Regex;
 
 fn main() {
