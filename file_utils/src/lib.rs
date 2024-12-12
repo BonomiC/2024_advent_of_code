@@ -1,5 +1,7 @@
 use std::fs;
 use std::env;
+use std::str::FromStr;
+use std::fmt::Debug;
 
 pub fn read_file(file_path: &str) -> String
 {
@@ -29,4 +31,26 @@ pub fn read_arg_file() -> String {
     let file_path = &args[1];
 
     return read_file(file_path);
+}
+
+pub fn read_arg_file_to_2d_vec<T: Default + Clone + FromStr>() -> Vec<Vec<T>> where <T as FromStr>::Err: Debug {
+    let lines = read_arg_file_by_line();
+
+    let rows = lines.len();
+    let cols = lines[0].len();
+
+    assert_eq!(rows, cols, "Rows & cols must be same size to read as matrix!");
+
+    let val = T::default();
+
+    let mut mat: Vec<Vec<T>> = vec![vec![val; cols]; rows];
+
+    for r in 0..rows {
+        for c in 0..cols {
+            let x = lines[r].chars().nth(c).unwrap().to_string().parse::<T>().unwrap();
+            mat[r][c] = x;
+        }
+    }
+
+    return mat;
 }
